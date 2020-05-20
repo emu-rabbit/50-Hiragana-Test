@@ -1,0 +1,174 @@
+<head>
+	<title>日文五十音練習</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<div id="app">
+			<div style="margin: 20px; border: 4px #999999 double; padding: 10px;">
+				<form class="form-inline" style="margin: 0px;">
+					<div class="form-row align-items-center mx-auto" style="margin: 0px;">
+						<span style="margin-right: 5px;">共</span>
+						<input class="form-control" type="number" v-model="questionNum">
+						<span style="margin-left: 5px;">題</span>
+						<button type="button" class="btn btn-light" @click="quesGen" style="margin-left: 20px;">開始新的考題</button>
+						<button type="button" class="btn btn-light" @click="showAnss" style="margin-left: 20px;">解答全顯示</button>
+					</div>
+				</form>
+				<table class="table table-striped table-bordered" style="margin-top: 20px;" v-if="ques.length!=0">
+					<tbody>
+						<tr>
+							<th>題目</th>
+							<th>-</th>
+							<th>羅馬</th>
+							<th>平假名</th>
+							<th>片假名</th>
+						</tr>
+						<tr v-for="qu in ques">
+							<td class="align-middle">{{ qu.word }}</td>
+							<td>
+								<button class="btn btn-light" @click="qu.show=true">顯示解答</button>
+							</td>
+							<td class="align-middle">{{ qu.show ? dic[qu.index].roman : '-' }}</td>
+							<td class="align-middle">{{ qu.show ? dic[qu.index].hiragana : '-' }}</td>
+							<td class="align-middle">{{ qu.show ? dic[qu.index].katakana : '-' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div style="margin: 20px; border: 4px #999999 double; padding: 10px;">
+				<button class="btn btn-light" @click="showDic=!showDic">五十音表</button>
+				<table style="margin-top: 20px;" class="table table-striped table-bordered" v-if="showDic">
+					<tr v-for="word in dic">
+						<td>{{ word.roman }}</td>
+						<td>{{ word.hiragana }}</td>
+						<td>{{ word.katakana }}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<style type="text/css">
+		*{
+			text-align: center;
+		}
+	</style>
+	<script type="text/javascript">
+		var VM = new Vue({
+			el: '#app',
+			data: {
+				dic: [],
+				ques: [],
+				showDic: false,
+				questionNum: 20
+			},
+			methods: {
+				addDic: function(roman, hiragana, katakana){
+					this.dic.push({
+						roman: roman,
+						hiragana: hiragana,
+						katakana: katakana
+					});
+					return;
+				},
+				hasCheck: function(index){
+					for(var i = 0; i <= this.ques.length-1; i ++){
+						if(this.ques[i].index === index) return true;
+					}
+					return false;
+				},
+				quesGen: function(){
+					if(this.questionNum > 46) this.questionNum = 46;
+					this.ques = [];
+					for(var i = 1; i <= this.questionNum; i ++){
+						var index = Math.floor(Math.random() * this.dic.length);
+						while(this.hasCheck(index)){
+							index = Math.floor(Math.random() * this.dic.length);
+						}
+						var type = Math.floor(Math.random() * 3);
+						var word = '';
+						switch(type){
+							case 0:
+								word = this.dic[index].roman;
+								break;
+							case 1:
+								word = this.dic[index].hiragana;
+								break;
+							case 2:
+								word = this.dic[index].katakana;
+								break;
+						}
+						this.ques.push({word: word, index: index, show: false});
+					}
+					console.log(this.ques);
+					return;
+				},
+				showAnss: function(){
+					for(qu in this.ques){
+						this.ques[qu].show = true;
+					}
+					return;
+				}
+			},
+			mounted: function(){
+				this.addDic('a', 'あ', 'ア');
+				this.addDic('i', 'い', 'イ');
+				this.addDic('u', 'う', 'ウ');
+				this.addDic('e', 'え', 'エ');
+				this.addDic('o', 'お', 'オ');
+
+				this.addDic('ka', 'か', 'カ');
+				this.addDic('ki', 'き', 'キ');
+				this.addDic('ku', 'く', 'ク');
+				this.addDic('ke', 'け', 'ケ');
+				this.addDic('ko', 'こ', 'コ');
+
+				this.addDic('sa', 'さ', 'サ');
+				this.addDic('shi', 'し', 'シ');
+				this.addDic('su', 'す', 'ス');
+				this.addDic('se', 'せ', 'セ');
+				this.addDic('so', 'そ', 'ソ');
+
+				this.addDic('ta', 'た', 'タ');
+				this.addDic('chi', 'ち', 'チ');
+				this.addDic('tsu', 'つ', 'ツ');
+				this.addDic('te', 'て', 'テ');
+				this.addDic('to', 'と', 'ト');
+
+				this.addDic('na', 'な', 'ナ');
+				this.addDic('ni', 'に', 'ニ');
+				this.addDic('nu', 'ぬ', 'ヌ');
+				this.addDic('ne', 'ね', 'ネ');
+				this.addDic('no', 'の', 'ノ');
+
+				this.addDic('ha', 'は', 'ハ');
+				this.addDic('hi', 'ひ', 'ヒ');
+				this.addDic('hu', 'ふ', 'フ');
+				this.addDic('he', 'へ', 'ヘ');
+				this.addDic('ho', 'ほ', 'ホ');
+
+				this.addDic('ma', 'ま', 'マ');
+				this.addDic('mi', 'み', 'ミ');
+				this.addDic('mu', 'む', 'ム');
+				this.addDic('me', 'め', 'メ');
+				this.addDic('mo', 'も', 'モ');
+
+				this.addDic('ya', 'や', 'ヤ');
+				this.addDic('yu', 'ゆ', 'ユ');
+				this.addDic('yo', 'よ', 'ヨ');
+
+				this.addDic('ra', 'ら', 'ラ');
+				this.addDic('ri', 'り', 'リ');
+				this.addDic('ru', 'る', 'ル');
+				this.addDic('re', 'れ', 'レ');
+				this.addDic('ro', 'ろ', 'ロ');
+
+				this.addDic('wa', 'わ', 'ワ');
+				this.addDic('wo', 'を', 'ヲ');
+
+				this.addDic('n', 'ん', 'ン');
+			}
+		});
+	</script>
+</body>
