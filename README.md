@@ -1,3 +1,3 @@
-# 50 Hiragana Test
- A website let you practice the Japanese Gojūon
-[GithubPage](https://immortalmice.github.io/50-Hiragana-Test/)
+# 50音練習網站
+用來練習日本五十音的網頁  
+[GithubPage](https://immortalmice.github.io/50-Hiragana-Test/)  
