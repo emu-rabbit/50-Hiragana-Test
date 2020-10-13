@@ -21,19 +21,19 @@
 					<tbody>
 						<tr>
 							<th>題目</th>
-							<th>-</th>
 							<th>羅馬</th>
 							<th>平假名</th>
 							<th>片假名</th>
+							<th>-</th>
 						</tr>
 						<tr v-for="qu in ques">
 							<td class="align-middle">{{ qu.word }}</td>
-							<td>
-								<button class="btn btn-light" @click="qu.show=true">顯示解答</button>
-							</td>
 							<td class="align-middle">{{ qu.show ? dic[qu.index].roman : '-' }}</td>
 							<td class="align-middle">{{ qu.show ? dic[qu.index].hiragana : '-' }}</td>
 							<td class="align-middle">{{ qu.show ? dic[qu.index].katakana : '-' }}</td>
+							<td>
+								<button class="btn btn-light" @click="qu.show=true">顯示解答</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
